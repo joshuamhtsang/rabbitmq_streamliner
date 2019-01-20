@@ -1,0 +1,53 @@
+####################################
+### RabbitMQ Streamliner Classes ###
+####################################
+
+
+###  Install Python modules using pip3:
+
+$ pip3 install -r requirements.txt
+
+Be sure to update requirements.txt when new package dependencies are added.
+
+
+### (Optional) If you wish to use virtualenv:
+
+$ virtualenv -p python3 .
+
+and then:
+
+$ source bin/activate
+
+
+### Setup local RabbitMQ broker with Docker:
+
+$ docker pull rabbitmq
+
+$ docker run --hostname my-rabbit --name some-rabbit -p 8080:15672 -p 5672:5672 rabbitmq:3-management
+
+Access the management UI at:  http://localhost:8080
+The RabbitMQ instance will listen on default port 5672 and we map/expose this
+port outside the container to 5672.
+
+The necessary exchanges and queues can be set up using the management UI.
+The basic steps are:
+
+1. Make an exchange called 'exchange1'.
+2. Make 2 queues: 'exchange1.request' and 'exchange1.result'.
+3. Add the necessary bindings to each queue.  For example, the 'exchange1.result'
+queue needs the following binding:
+From exchange: 'exchange1'
+Routing key: 'exchange1.result'
+
+
+### Make a version of config_rabbitmq.py
+
+For local testing using a RabbitMQ instance conforming to the Docker image
+defaults, simply make a copy of the example in the repository:
+
+$ cp config_rabbitmq.example.py config_rabbitmq.py
+
+
+### Run the code:
+
+You need to write code that instantiates producer and consumer objects as needed.
